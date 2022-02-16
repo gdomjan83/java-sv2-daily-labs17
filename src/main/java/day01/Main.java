@@ -17,7 +17,7 @@ public class Main {
         }
 
         ActorsRepository actorsRepository = new ActorsRepository(dataSource);
-        actorsRepository.saveActor();
+        actorsRepository.saveActor("Bodnár Gabriella");
 
     }
 }
