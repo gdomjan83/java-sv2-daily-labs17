@@ -17,7 +17,9 @@ public class Main {
         }
 
         ActorsRepository actorsRepository = new ActorsRepository(dataSource);
-        actorsRepository.saveActor("Bodnár Gabriella");
-
+//        actorsRepository.saveActorWithoutParameter();
+//        actorsRepository.saveActor("Bodnár Gabriella");
+//        System.out.println(actorsRepository.listActorsWithoutParameter());
+        System.out.println(actorsRepository.listActorsContainingSubstring("jan"));
     }
 }
