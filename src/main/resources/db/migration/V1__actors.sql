@@ -1,0 +1,1 @@
+create table actors(id int auto_increment, actor_name varchar(255), constraint pk_actor primary key (id));
