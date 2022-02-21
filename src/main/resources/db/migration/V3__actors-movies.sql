@@ -1,0 +1,1 @@
+create table actors_movies(id int auto_increment, actor_id int, movie_id int, constraint pk_actors_movies primary key (id));

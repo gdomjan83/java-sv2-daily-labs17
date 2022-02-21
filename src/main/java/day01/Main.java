@@ -5,6 +5,7 @@ import org.mariadb.jdbc.MariaDbDataSource;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Main {
 
@@ -19,13 +20,19 @@ public class Main {
         }
 
         Flyway flyway = Flyway.configure().dataSource(dataSource).load();
+        flyway.clean();
         flyway.migrate();
 
         ActorsRepository actorsRepository = new ActorsRepository(dataSource);
         MovieRepository movieRepository = new MovieRepository(dataSource);
-//        actorsRepository.saveActor("Leonardo DiCaprio");
-//        movieRepository.saveMovie("Titanic", LocalDate.of(1997, 12 ,19));
-//        movieRepository.saveMovie("Terminator", LocalDate.of(1988, 5,26));
-        System.out.println(movieRepository.findAllMovies());
+        ActorsMoviesRepository actorsMoviesRepository = new ActorsMoviesRepository(dataSource);
+
+        ActorsMoviesService actorsMoviesService = new ActorsMoviesService(actorsRepository, movieRepository, actorsMoviesRepository);
+        actorsMoviesService.insertMovieWithActors("Titanic", LocalDate.of(1997, 12 ,19),
+                List.of("Leonardo DiCaprio", "Kate Blanchet", "Billy Zane"));
+        actorsMoviesService.insertMovieWithActors("Terminator", LocalDate.of(1988, 5,26),
+                List.of("Arnold Schwarzenegger", "Linda Hamilton", "Michael Biehn"));
+        actorsMoviesService.insertMovieWithActors("The Wolf of Wall Street", LocalDate.of(2013, 12,25),
+                List.of("Leonardo DiCaprio", "Jonah Hill"));
     }
 }

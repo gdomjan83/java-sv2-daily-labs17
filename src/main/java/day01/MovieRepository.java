@@ -13,15 +13,26 @@ public class MovieRepository {
         this.dataSource = dataSource;
     }
 
-    public void saveMovie(String title, LocalDate releaseDate) {
+    public int saveMovie(String title, LocalDate releaseDate) {
         try (Connection conn = dataSource.getConnection();
              //language=sql
-             PreparedStatement stmt = conn.prepareStatement("insert into movies (movie_name, release_date) values (?, ?)")) {
+             PreparedStatement stmt = conn.prepareStatement("insert into movies (movie_name, release_date) values (?, ?)",
+                     Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, title);
             stmt.setDate(2, Date.valueOf(releaseDate));
             stmt.executeUpdate();
+            return getMovieId(stmt);
         } catch (SQLException sqle) {
             throw new IllegalStateException("Can not update.", sqle);
+        }
+    }
+
+    private int getMovieId(PreparedStatement stmt) throws SQLException {
+        try (ResultSet rs = stmt.getGeneratedKeys()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            throw new IllegalStateException("Cannot return id.");
         }
     }
 
