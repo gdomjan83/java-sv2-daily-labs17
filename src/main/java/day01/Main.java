@@ -29,6 +29,8 @@ public class Main {
         RatingsRepository ratingsRepository = new RatingsRepository(dataSource);
 
         ActorsMoviesService actorsMoviesService = new ActorsMoviesService(actorsRepository, movieRepository, actorsMoviesRepository);
+        MovieRatingService movieRatingService = new MovieRatingService(movieRepository, ratingsRepository);
+
         actorsMoviesService.insertMovieWithActors("Titanic", LocalDate.of(1997, 12 ,19),
                 List.of("Leonardo DiCaprio", "Kate Blanchet", "Billy Zane"));
         actorsMoviesService.insertMovieWithActors("Terminator", LocalDate.of(1988, 5,26),
@@ -36,7 +38,7 @@ public class Main {
         actorsMoviesService.insertMovieWithActors("The Wolf of Wall Street", LocalDate.of(2013, 12,25),
                 List.of("Leonardo DiCaprio", "Jonah Hill"));
 
-        ratingsRepository.rateMovie(2, List.of(1, 3, 2, 4, 5, 5));
-        ratingsRepository.rateMovie(1, List.of(1, 3, 2, 4, 0, 5));
+        movieRatingService.addRatings("Terminator", 1, 3, 2, 4, 5, 5);
+        movieRatingService.addRatings("Titanic", 1, 3, 2, 4, 6, 5);
     }
 }
