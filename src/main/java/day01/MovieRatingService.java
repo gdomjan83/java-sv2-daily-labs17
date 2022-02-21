@@ -16,6 +16,8 @@ public class MovieRatingService {
         Optional<Movie> movieFound = movieRepository.findMovieByTitle(title);
         if (movieFound.isPresent()) {
             ratingsRepository.rateMovie(movieFound.get().getId().intValue(), Arrays.asList(ratings));
+        } else {
+            throw new IllegalArgumentException("Can not find movie.");
         }
     }
 }
