@@ -39,6 +39,6 @@ public class Main {
                 List.of("Leonardo DiCaprio", "Jonah Hill"));
 
         movieRatingService.addRatings("Terminator", 1, 3, 2, 4, 5, 5);
-        movieRatingService.addRatings("Titanic", 1, 3, 2, 4, 6, 5);
+        movieRatingService.addRatings("Titanic", 1, 3, 2, 4, 3, 5);
     }
 }
