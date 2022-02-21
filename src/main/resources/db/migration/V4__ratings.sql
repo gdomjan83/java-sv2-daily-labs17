@@ -1,0 +1,1 @@
+create table ratings(id int auto_increment, movie_id int, rating int, constraint pk_rating primary key (id));

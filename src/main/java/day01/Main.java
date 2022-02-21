@@ -26,6 +26,7 @@ public class Main {
         ActorsRepository actorsRepository = new ActorsRepository(dataSource);
         MovieRepository movieRepository = new MovieRepository(dataSource);
         ActorsMoviesRepository actorsMoviesRepository = new ActorsMoviesRepository(dataSource);
+        RatingsRepository ratingsRepository = new RatingsRepository(dataSource);
 
         ActorsMoviesService actorsMoviesService = new ActorsMoviesService(actorsRepository, movieRepository, actorsMoviesRepository);
         actorsMoviesService.insertMovieWithActors("Titanic", LocalDate.of(1997, 12 ,19),
@@ -34,5 +35,8 @@ public class Main {
                 List.of("Arnold Schwarzenegger", "Linda Hamilton", "Michael Biehn"));
         actorsMoviesService.insertMovieWithActors("The Wolf of Wall Street", LocalDate.of(2013, 12,25),
                 List.of("Leonardo DiCaprio", "Jonah Hill"));
+
+        ratingsRepository.rateMovie(2, List.of(1, 3, 2, 4, 5, 5));
+        ratingsRepository.rateMovie(1, List.of(1, 3, 2, 4, 0, 5));
     }
 }
