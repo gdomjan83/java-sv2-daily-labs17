@@ -23,7 +23,9 @@ public class RatingsRepository {
     }
 
     private void runUpdate(Connection conn, List<Integer> ratings, int movie_id) throws SQLException {
-        try (PreparedStatement stmt = conn.prepareStatement("insert into ratings(movie_id, rating) values (?, ?)")) {
+        try (PreparedStatement stmt = conn.prepareStatement(
+                //language=sql
+                "insert into ratings(movie_id, rating) values (?, ?)")) {
             validateAndSetValues(ratings, stmt, movie_id);
             conn.commit();
         } catch (IllegalArgumentException iae) {
