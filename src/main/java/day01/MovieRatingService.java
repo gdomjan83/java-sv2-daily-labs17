@@ -17,10 +17,14 @@ public class MovieRatingService {
         if (movieFound.isPresent()) {
             int movieId = movieFound.get().getId().intValue();
             ratingsRepository.rateMovie(movieId, Arrays.asList(ratings));
-            double avgRating = ratingsRepository.getAverageRatingForMovie(movieId);
-            movieRepository.updateAverageRating(avgRating, movieId);
+            updateAverageRating(movieId);
         } else {
             throw new IllegalArgumentException("Can not find movie.");
         }
+    }
+
+    private void updateAverageRating(int movieId) {
+        double avgRating = ratingsRepository.getAverageRatingForMovie(movieId);
+        movieRepository.updateAverageRating(avgRating, movieId);
     }
 }
