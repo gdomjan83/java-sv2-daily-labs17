@@ -3,6 +3,7 @@ package day01;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,6 +20,27 @@ public class RatingsRepository {
             runUpdate(conn, ratings, movie_id);
         } catch (SQLException sqle) {
             throw new IllegalStateException("Can not insert rating.", sqle);
+        }
+    }
+
+    public double getAverageRatingForMovie(int movieId) {
+        try (Connection conn = dataSource.getConnection();
+             //language=sql
+        PreparedStatement stmt = conn.prepareStatement(
+                "SELECT CAST(AVG(rating) as DECIMAL(10,2)) as avg FROM ratings WHERE movie_id = ?")) {
+            stmt.setInt(1, movieId);
+            return getAverageRatingFromTable(stmt);
+        } catch (SQLException sqle) {
+            throw new IllegalStateException("Can not find average rating.", sqle);
+        }
+    }
+
+    private double getAverageRatingFromTable(PreparedStatement stmt) throws SQLException {
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getDouble("avg");
+            }
+            throw new IllegalStateException("Can not find average rating.");
         }
     }
 

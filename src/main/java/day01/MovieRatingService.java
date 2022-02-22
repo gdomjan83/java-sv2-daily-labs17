@@ -15,7 +15,10 @@ public class MovieRatingService {
     public void addRatings(String title, Integer... ratings) {
         Optional<Movie> movieFound = movieRepository.findMovieByTitle(title);
         if (movieFound.isPresent()) {
-            ratingsRepository.rateMovie(movieFound.get().getId().intValue(), Arrays.asList(ratings));
+            int movieId = movieFound.get().getId().intValue();
+            ratingsRepository.rateMovie(movieId, Arrays.asList(ratings));
+            double avgRating = ratingsRepository.getAverageRatingForMovie(movieId);
+            movieRepository.updateAverageRating(avgRating, movieId);
         } else {
             throw new IllegalArgumentException("Can not find movie.");
         }

@@ -17,7 +17,7 @@ public class MovieRepository {
     public int saveMovie(String title, LocalDate releaseDate) {
         try (Connection conn = dataSource.getConnection();
              //language=sql
-             PreparedStatement stmt = conn.prepareStatement("insert into movies (movie_name, release_date) values (?, ?)",
+             PreparedStatement stmt = conn.prepareStatement("insert into movies (movie_name, release_date, avg_rating) values (?, ?, 0.0)",
                      Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, title);
             stmt.setDate(2, Date.valueOf(releaseDate));
@@ -25,6 +25,18 @@ public class MovieRepository {
             return getMovieId(stmt);
         } catch (SQLException sqle) {
             throw new IllegalStateException("Can not update.", sqle);
+        }
+    }
+
+    public void updateAverageRating(double averageRating, int movieId) {
+        try (Connection conn = dataSource.getConnection();
+             //language=sql
+        PreparedStatement stmt = conn.prepareStatement("UPDATE movies SET avg_rating = ? WHERE id = ?")) {
+            stmt.setDouble(1, averageRating);
+            stmt.setInt(2, movieId);
+            stmt.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new IllegalStateException("Cannot update average rating.", sqle);
         }
     }
 
