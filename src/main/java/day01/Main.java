@@ -40,6 +40,6 @@ public class Main {
 
         movieRatingService.addRatings("Terminator", 1, 3, 2, 4, 5, 5);
         movieRatingService.addRatings("Titanic", 1, 3, 2, 4, 3, 5);
-        movieRatingService.addRatings("The Wolf of Wall Street", 5, 5, 4, 4);
+        movieRatingService.addRatings("The Wolf of Wall Street", 2, 1);
     }
 }
